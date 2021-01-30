@@ -17,18 +17,36 @@ export class StartExamComponent implements OnInit {
   registerStudentForm:any;
   Nanswers :any;
   studentId:any;
+  lstNews: any;
+  selectedLevel:any;
+  //selectedState:any = '0';
  // currentQuestion: Question = new Question('default',[]);
   constructor(private _Apiservice: AllApiServiceService, private formbuilder: FormBuilder ){
     //TODO : put this in a list of question-edition-component
-    _Apiservice.fetchQuestions().subscribe(data => {
-       console.log(data);
-        this.currentQuestion = data;
-    })
+    // _Apiservice.fetchQuestions().subscribe(data => {
+    //    console.log(data);
+    //     this.currentQuestion = data;
+    // })
   }
   
+  SearchById(){
+    this.fetchAllQuestions(this._Apiservice);
+    //this.selectedState = '1';
+    //console.log(this.selectedState);
+  }
+
+  fetchAllQuestions(_Apiservice: AllApiServiceService){
+    _Apiservice.fetchQuestionsByQuizId(this.selectedLevel).subscribe(data => {
+      console.log(data);
+       this.currentQuestion = data;
+   })
+   }
 
   ngOnInit(): void {
+    this.getAll();
     this.mode = "Student";
+    //this.selectedState = 0;
+    //console.log(this.selectedState);
     this.registerStudentForm = this.formbuilder.group(
       {
         StudentName:["",Validators.required]
@@ -112,5 +130,24 @@ export class StartExamComponent implements OnInit {
     isAnswered(question: Question) {
       return question.choices.find(x => x.selected) ? 'Answered' : 'Not Answered';
     };
+
+    public getAll() {
+      //this.isShown = ! this.isShown;
+      this._Apiservice.getQuizName()
+            .subscribe
+            (
+              (            data: any) => {
+                this.lstNews = data;
+                console.log(data);
+              }
+            )
+    }
+
+    selected(event: { target: any; }){
+      this.selectedLevel = event['target'].value;
+      console.log(this.selectedLevel)
+
+      this.SearchById();
+    }
 
 }

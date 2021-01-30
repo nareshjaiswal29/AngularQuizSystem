@@ -117,7 +117,7 @@ export class AddNewQuestionComponent implements OnInit {
       });
     //this.ContactService.(await this.createContact());
     alert("Succsess Signup\n" + JSON.stringify(this.registerQuizForm.value));
-    
+    this.getAll();
   }
   onSubmit() {
     this.submitted = true;
@@ -150,6 +150,7 @@ export class AddNewQuestionComponent implements OnInit {
            
       ]
   };
+  console.log(data);
     this._Apiservice.CreateQuestions(data).subscribe(
         response => {
           console.log(response);
@@ -159,14 +160,16 @@ export class AddNewQuestionComponent implements OnInit {
         });
       //this.ContactService.(await this.createContact());
       alert("Succsess Signup\n" + JSON.stringify(this.registerForm.value));
+      alert('DATA INSERTED!');
+      this.onReset();
    }
    else
    {
-    const data = {
+    const Udata = {
       "questionTitle": this.registerForm.value.Question,
       "quizId":this.QuizId,
       "topics":this.registerForm.value.Topics,
-      "questionId": this.UQustion,
+      "questionId": this.UquestionId,
       "choices": [
           {
               "id": this.UOptionId1,
@@ -191,14 +194,14 @@ export class AddNewQuestionComponent implements OnInit {
            
       ]
   };
-    this._Apiservice.UpdateQuestions(data).subscribe(
+  console.log(Udata);
+    this._Apiservice.UpdateQuestions(Udata).subscribe(
         response => {
           console.log(response);
         },
         error => {
           console.log(error);
         });
-      //this.ContactService.(await this.createContact());
       alert("Succsess Signup\n" + JSON.stringify(this.registerForm.value));
    }
   
@@ -278,10 +281,15 @@ export class AddNewQuestionComponent implements OnInit {
     this.UOptionValue2 = data.tData.choices[1].choiceTitle;
 
     this.UOptionId3 = data.tData.choices[2].id;
-    this.UOptionValue4 = data.tData.choices[2].choiceTitle;
+    this.UOptionValue3 = data.tData.choices[2].choiceTitle;
 
     this.UOptionId4 = data.tData.choices[3].id;
     this.UOptionValue4 = data.tData.choices[3].choiceTitle;
    
+  }
+
+  onReset() {
+    //this.submitted = false;
+    this.registerForm.reset();
   }
 }

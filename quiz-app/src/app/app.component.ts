@@ -11,7 +11,7 @@ import { AllApiServiceService } from './all-api-service.service';
 })
 export class AppComponent {
   title = 'quiz-app';
-  currentQuestion: Question = new Question('default',[]);
+  currentQuestion: Question = new Question('default',[],0,'',);
 
 
    //Question :any[];

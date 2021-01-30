@@ -7,7 +7,7 @@ export class Question {
     questionId : number;
     quizId : string;
 
-    constructor(questionTitle:string, choices:Choice[], answered:boolean, questionId : number,quizId:string){
+    constructor(questionTitle:string, choices:Choice[], questionId : number,quizId:string){
         this.questionTitle = questionTitle;
         this.choices = choices;
         this.quizId= quizId;

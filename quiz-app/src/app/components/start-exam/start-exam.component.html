@@ -1,80 +1,68 @@
-<style>    button {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 12px;
-}
-</style>
-<div class="row" *ngIf="mode=='Student'">
-  <div class="col-6">
-    <h1 style="text-align: center;">Enter Details</h1>
-    <div>
-      <form [formGroup]='registerStudentForm' (ngSubmit)="onStudentSubmit()">
-        <div class="form-row">
-            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
-                <label>Enter Student Name</label>
-                <input type="text" class="form-control" formControlName="StudentName">
-            </div>
-        </div>
-        <div class="text-center">
-            <button mat-raised-button color="acent"
-                class="btn btn-success btn-lg px-4 mr-3">Submit</button>
-            <button mat-raised-button color="primary"
-                class="btn btn-warning btn-lg px-4 mr-3" type="reset">
-                Reset
-            </button>
-           
-        </div>
+<div class="form" *ngIf="mode=='Student'">
+  <div>
+    <form [formGroup]='registerStudentForm' (ngSubmit)="onStudentSubmit()">
+      <div>
+        <label>Student Name &nbsp;&nbsp; </label>
+        <input type="text" class="form-control" formControlName="StudentName">
+      </div>
+      <div class="buttons">
+        <button class="">Submit</button>
+        <button type="reset">Reset</button>
+      </div>
     </form>
-    </div>
   </div>
 </div>
 <div class="row" *ngIf="mode=='Startquiz'">
-    <div class="col-6">
-      <h1 style="text-align: center;">Start Quiz</h1>
-    </div>
-    <div *ngFor="let question of currentQuestion; let index = index">
-      <!-- <div class="badge badge-info">Question {{pager.index + 1}} of {{pager.count}}.</div>
-      <div *ngIf="config.duration" class="badge badge-info float-right">Time: {{ellapsedTime}} / {{duration}}</div> -->
-       <h3 class="font-weight-normal">
-        <!-- <span [innerHTML]="question.questionTitle"></span> -->
-        <h2>{{index + 1}}. {{question.questionTitle}}</h2>
-      </h3>
-      <div class="row text-left options">
-        <div class="col-6" *ngFor="let option of question.choices">
-          <div class="option">
-            <label class="font-weight-normal" [attr.for]="option.id">
-              <input id="{{option.id}}" type="checkbox" [(ngModel)]="option.selected" (change)="onSelect(question, option, option.id);"/> {{option.choiceTitle}}
-            </label>
-          </div>
-        </div>
-      </div>
-      <br>
-    </div>
-    <div style="width: 100%; text-align: center;">
-      <button (click)="Submit()"> Submit</button>
-    </div>
-</div>
-  <div *ngIf="mode=='quizResult'">
-    <h2 style="text-align: center;">Quiz Result</h2>
-    <div *ngFor="let question of currentQuestion; let index = index">
-      <div class="result-question">
-        <h2>{{index + 1}}. {{question.questionTitle}}</h2>
-        <div class="row">
-          <div class="col-6" *ngFor="let Option of question.choices">
-            <input id="{{Option.id}}" type="checkbox" disabled="disabled" [(ngModel)]="Option.selected" /> {{Option.choiceTitle}}
-          </div>
-        </div>
-        <div class="p-1 m-2 alert {{ isCorrect(question) == 'correct'? 'alert-success': 'alert-danger'}}">Your answer is {{isCorrect(question)}}.</div>
-      </div>
-    </div>
-    <h4 style="text-align: center;">Thank you for the Quiz participation.</h4>
+  <div class="col-6">
+    <h1 style="text-align: center;">Start Quiz</h1>
   </div>
-<hr />
+  <div style="width: 100%; text-align: center;">
+    <label style="width: 30%; font-size: larger;">Select Quiz&nbsp;&nbsp;&nbsp;</label>
+    <select (change)="selected($event)" style="width: 10%; font-size: larger;
+    color: currentcolor;">
+    <option>SELECT</option>
+      <option *ngFor="let lstquiz of lstNews" value="{{lstquiz['id']}}">{{lstquiz['quizTitle']}}</option>
+    </select>
+  </div>
+  <div *ngFor="let question of currentQuestion; let index = index">
+    <!-- <div class="badge badge-info">Question {{pager.index + 1}} of {{pager.count}}.</div>
+      <div *ngIf="config.duration" class="badge badge-info float-right">Time: {{ellapsedTime}} / {{duration}}</div> -->
+    <h3 class="font-weight-normal">
+      <!-- <span [innerHTML]="question.questionTitle"></span> -->
+    
+      <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{index + 1}}. {{question.questionTitle}}</h2>
+    </h3>
+    <div class="row text-left options">
+      <div class="col-6" *ngFor="let option of question.choices;  let index = index">
+        <div class="option">
+          <label class="font-weight-normal" [attr.for]="option.id">
+            <input id="{{option.id}}" type="checkbox" [(ngModel)]="option.selected"
+              (change)="onSelect(question, option, option.id);" /> {{index + 1}}.  {{option.choiceTitle}}
+          </label>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+  <div style="width: 100%; text-align: center;">
+    <button (click)="Submit()"> Submit</button>
+  </div>
+</div>
+<div *ngIf="mode=='quizResult'">
+  <h2 style="text-align: center;">Quiz Result</h2>
+  <div *ngFor="let question of currentQuestion; let index = index">
+    <div class="result-question">
+      <h2>{{index + 1}}. {{question.questionTitle}}</h2>
+      <div class="row">
+        <div class="col-6" *ngFor="let Option of question.choices; let index = index">
+
+          <input id="{{Option.id}}" type="checkbox" disabled="disabled" [(ngModel)]="Option.selected" />
+          {{index + 1}}.  {{Option.choiceTitle}}
+        </div>
+      </div>
+      <div class="p-1 m-2 alert {{ isCorrect(question) == 'correct'? 'alert-success': 'alert-danger'}}">Your answer is
+        {{isCorrect(question)}}.</div>
+    </div>
+  </div>
+  <h4 style="text-align: center;">Thank you for the Quiz participation.</h4>
+</div>

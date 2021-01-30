@@ -1,113 +1,172 @@
-
-<mat-card >
-
-
-<mat-card-content>
-    <div *ngIf="mode=='quiz'">
-        
-        <form [formGroup]='registerQuizForm' (ngSubmit)="onQuizSubmit()">
-            <div class="form-row" style="width: 100%; text-align: center;">
-                <div>
-                    <label style="text-align: center;">Enter Quiz Name:                </label>
-                    <input type="text" class="form-control" formControlName="QuizName">
-                </div>
-                <br><br>
-            </div>
-            <div class="text-center" style="width: 100%; text-align: center;"> 
-                <button mat-raised-button color="acent"
-                    class="btn btn- btn-success px-4 mr-3">Submit</button>
-                <button mat-raised-button color="primary"
-                    class="btn btn-warning btn-lg px-4 mr-3" type="reset">
-                    Reset
-                </button>
-               
-            </div>
-        </form>
-        
-        <div style="width: 100%; text-align: left;">
-            <button (click)="Csvdownload()"> ENTER QUESTIONS</button>
-          </div>
+<div class="card" *ngIf="mode=='quiz'">
+    <form [formGroup]='registerQuizForm' (ngSubmit)="onQuizSubmit()">
+      <div class="form-row" style="width: 100%; text-align: center;">
+        <div>
+          <label>Enter Quiz Name: </label>
+          <input style="color: black;" type="text" class="form-control" formControlName="QuizName">
+        </div>
+        <br><br>
+      </div>
+      <div class="buttons">
+        <button class="">Add</button>
+        <button class="" type="reset">Reset</button>
+        <button (click)="Csvdownload()" class=""> ADD QUESTIONS</button>
+      </div>
+    </form>
+  </div>
+  
+  <div class="create-question card " *ngIf="mode=='questionType'">
+    <button (click)="Csvdownload()" class="add-question"> ENTER QUESTIONS</button>
+    <div class="form-data">
+      <form [formGroup]='registerForm' (ngSubmit)="onSubmit()">
+        <div class="correct-options">
+          <label>Select Quiz</label> &nbsp;
+          <select (change)="selected($event)">
+            <option *ngFor="let lstquiz of lstNews" value="{{lstquiz['id']}}">{{lstquiz['quizTitle']}}</option>
+          </select>
+        </div>
+        <div class="Questions">
+          <label>Question</label>
+          <input type="text" class="form-control" formControlName="Question" [(ngModel)]="UQustion">
+        </div>
+        <div class="Questions">
+          <label>Topics</label>
+          <input type="text" class="form-control" formControlName="Topics" [(ngModel)]="UTopics">
+        </div>
+        <div class="Questions">
+          <label>Option 1</label>
+          <input type="text" class="form-control" formControlName="Option1" [(ngModel)]="UOptionValue1">
+        </div>
+        <div class="Questions">
+          <label>Option 2</label>
+          <input type="text" class="form-control" formControlName="Option2" [(ngModel)]="UOptionValue2">
+        </div>
+        <div class="Questions">
+          <label>Option 3</label>
+          <input type="text" class="form-control" formControlName="Option3" [(ngModel)]="UOptionValue3">
+        </div>
+        <div class="Questions">
+          <label>Option 4</label>
+          <input type="text" class="form-control" formControlName="Option4" [(ngModel)]="UOptionValue4">
+        </div>
+        <div class="correct-options">
+          <label>Select Correct Option</label> &nbsp;
+          <select (change)="getValue($event)">
+            <option value="Option1">Option 1</option>
+            <option value="Option2">Option 2</option>
+            <option value="Option3">Option 3</option>
+            <option value="Option4">Option 4</option>
+          </select>
+        </div>
+  
+        <div class="buttons">
+          <button class="btn btn-success ">Submit</button>
+          <button class="btn btn-warning " type="reset">
+            Reset
+          </button>
+        </div>
+      </form>
     </div>
-    <div class="card bg-dark text-white m-1 mt-2  col-xs-12 col-sm-12 col-md-12 col-lg-8 " *ngIf="mode=='questionType'">
+  </div>
+  
+  <!-- 
+  <mat-card>
+    <mat-card-content>
+      <div *ngIf="mode=='quiz'">
+        <form [formGroup]='registerQuizForm' (ngSubmit)="onQuizSubmit()">
+          <div class="form-row" style="width: 100%; text-align: center;">
+            <div>
+              <label style="text-align: center;">Enter Quiz Name: </label>
+              <input type="text" class="form-control" formControlName="QuizName">
+            </div>
+            <br><br>
+          </div>
+          <div class="text-center" style="width: 100%; text-align: center;">
+            <button mat-raised-button color="acent" class="btn btn- btn-success px-4 mr-3">Submit</button>
+            <button mat-raised-button color="primary" class="btn btn-warning btn-lg px-4 mr-3" type="reset">
+              Reset
+            </button>
+          </div>
+        </form> 
+        <div style="width: 100%; text-align: left;">
+          <button (click)="Csvdownload()"> ENTER QUESTIONS</button>
+        </div>
+      </div>
+      <div class="card bg-dark text-white m-1 mt-2  col-xs-12 col-sm-12 col-md-12 col-lg-8 " *ngIf="mode=='questionType'">
         <h3 class="card-header text-center">
-            Add New Questions
+          Add New Questions
         </h3>
         <div class="">
-            <h3 class="card-header text-center">
-                Enter Question and its choices
-            </h3>
-            <div data-aos="fade-left" class="card-body ">
-                <form [formGroup]='registerForm' (ngSubmit)="onSubmit()">
-
-                    <div class="form-row">
-                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
-                            <label>Select Quiz</label>
-                            <select style="width: 10%; font-size: larger; color: indigo;" (change)="selected($event)">
-                                <option *ngFor="let lstquiz of lstNews" value="{{lstquiz['id']}}">{{lstquiz['quizTitle']}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
-                            <label>Question</label>
-                            <input type="text" class="form-control" formControlName="Question" [(ngModel)]="UQustion">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
-                            <label>Topics</label>
-                            <input type="text" class="form-control" formControlName="Topics" [(ngModel)]="UTopics">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
-                            <label>Option 1</label>
-                            <input type="text" class="form-control" formControlName="Option1" [(ngModel)]="UOptionValue1">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
-                            <label>Option 2</label>
-                            <input type="text" class="form-control" formControlName="Option2" [(ngModel)]="UOptionValue2">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
-                            <label>Option 3</label>
-                            <input type="text" class="form-control" formControlName="Option3" [(ngModel)]="UOptionValue3">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
-                            <label>Option 4</label>
-                            <input type="text" class="form-control" formControlName="Option4" [(ngModel)]="UOptionValue4">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
-                            <label>Select Correct Option</label>
-                            <select (change)="getValue($event)" style="width: 10%; font-size: larger;
-                            color: green;">
-                                <option value="Option1">Option 1</option>
-                                <option value="Option2">Option 2</option>
-                                <option value="Option3">Option 3</option>
-                                <option value="Option4">Option 4</option>
-                              </select>
-                        </div>
-                    </div>
-
-                    <div class="text-center">
-                        <button mat-raised-button color="acent"
-                            class="btn btn-success btn-lg px-4 mr-3">Submit</button>
-                        <button mat-raised-button color="primary"
-                            class="btn btn-warning btn-lg px-4 mr-3" type="reset">
-                            Reset
-                        </button>
-                       
-                    </div>
-                </form>
-            </div>
+          <h3 class="card-header text-center">
+            Enter Question and its choices
+          </h3>
+          <div data-aos="fade-left" class="card-body ">
+            <form [formGroup]='registerForm' (ngSubmit)="onSubmit()">
+              <div class="form-row">
+                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
+                  <label>Select Quiz</label>
+                  <select style="width: 10%; font-size: larger; color: indigo;" (change)="selected($event)">
+                    <option *ngFor="let lstquiz of lstNews" value="{{lstquiz['id']}}">{{lstquiz['quizTitle']}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
+                  <label>Question</label>
+                  <input type="text" class="form-control" formControlName="Question" [(ngModel)]="UQustion">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
+                  <label>Topics</label>
+                  <input type="text" class="form-control" formControlName="Topics" [(ngModel)]="UTopics">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
+                  <label>Option 1</label>
+                  <input type="text" class="form-control" formControlName="Option1" [(ngModel)]="UOptionValue1">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
+                  <label>Option 2</label>
+                  <input type="text" class="form-control" formControlName="Option2" [(ngModel)]="UOptionValue2">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
+                  <label>Option 3</label>
+                  <input type="text" class="form-control" formControlName="Option3" [(ngModel)]="UOptionValue3">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
+                  <label>Option 4</label>
+                  <input type="text" class="form-control" formControlName="Option4" [(ngModel)]="UOptionValue4">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg 6">
+                  <label>Select Correct Option</label>
+                  <select (change)="getValue($event)" style="width: 10%; font-size: larger;
+                              color: green;">
+                    <option value="Option1">Option 1</option>
+                    <option value="Option2">Option 2</option>
+                    <option value="Option3">Option 3</option>
+                    <option value="Option4">Option 4</option>
+                  </select>
+                </div>
+              </div>
+              <div class="text-center">
+                <button mat-raised-button color="acent" class="btn btn-success btn-lg px-4 mr-3">Submit</button>
+                <button mat-raised-button color="primary" class="btn btn-warning btn-lg px-4 mr-3" type="reset">
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-    </div>
-</mat-card-content>
-</mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card> -->
